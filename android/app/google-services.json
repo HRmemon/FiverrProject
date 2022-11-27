@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "815309245281",
+    "project_id": "vembrace-f0afb",
+    "storage_bucket": "VEmbrace-f0afb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815309245281:android:26c8c3b6d4cd6bf00e1320",
+        "android_client_info": {
+          "package_name": "com.mustafa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815309245281-9hbavouj2lnau6nh848haglnq16lbu9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUI0mkNmfdr7aFPraV5D3Ixf83D7C_6YA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815309245281-9hbavouj2lnau6nh848haglnq16lbu9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
