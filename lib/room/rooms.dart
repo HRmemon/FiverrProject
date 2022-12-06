@@ -6,27 +6,14 @@ import 'package:VEmbrace/room/createRoom.dart';
 import 'createRoom.dart';
 import 'package:VEmbrace/widgets/homeBar.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class RoomsList extends StatefulWidget {
+  const RoomsList({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<RoomsList> createState() => _RoomsListState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RoomsListState extends State<RoomsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

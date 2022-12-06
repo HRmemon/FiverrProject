@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  google_fonts: ^2.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -40,7 +40,15 @@ dependencies:
   cloud_firestore: ^4.0.3
   image_picker: ^0.8.6
   flutter_svg: ^1.1.6
-  video_player: ^2.2.19
+  email_validator: ^2.1.17
+  lottie: ^2.0.0
+  table_calendar: ^3.0.8
+
+  # video_player: ^2.2.19
+  # hexcolor: ^2.0.4
+  # font_awesome_flutter: ^9.1.0
+  # otp_text_field: ^1.1.1
+  # flutter_login: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -52,15 +60,20 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  flutter_native_splash: ^2.0.5
+  # flutter_native_splash: ^2.0.5
+  # flutter_launcher_icons: ^0.11.0
 
+flutter_icons:
+ android: true
+ ios: true
+ image_path: "assets/logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 #dependency_overrides:
 #  firebase_core_platform_interface: 4.5.1
-flutter_native_splash:
-  color: "#000000"
+# flutter_native_splash:
+  # color: "#f84f93"
 
 
 # The following section is specific to Flutter packages.
@@ -74,7 +87,33 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/splashvideo.mp4
+    - assets/images/login.svg
+    - assets/images/register.svg
+    - assets/DocButton.png
+    - assets/ForumButton.png
+    - assets/HealthMartButton.png
+    - assets/MyCalenderButton.png
+    - assets/PeriodTrackerButton.png
+    - assets/vembrace.png
+    - assets/images/friendship.png
+    - assets/opening.png
+    - assets/logoNew.png
+    - assets/name.png
+    - assets/vSplash.json
+    - assets/handSplash.json
 
+    - assets/appbar.png
+    - assets/gyna.png
+    - assets/mental.png
+    - assets/mustafa.jpg
+
+
+  fonts:
+    - family: NotoSerif
+      fonts:
+        - asset: assets/fonts/NotoSerif-Regular.ttf
+        - asset: assets/fonts/NotoSerif-Bold.ttf
+          weight: 700
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

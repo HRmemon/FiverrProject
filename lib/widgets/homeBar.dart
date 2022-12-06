@@ -1,3 +1,4 @@
+import 'package:VEmbrace/room/rooms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:VEmbrace/user/userProfile.dart';
@@ -20,7 +21,7 @@ class HomeBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              MaterialPageRoute(builder: (context) => RoomsList()),
             );
           },
           child: const Text(
@@ -73,41 +74,3 @@ class HomeBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-
-// class HomeBar extends StatelessWidget {
-//   const HomeBar({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       elevation: 0.0,
-//       centerTitle: true,
-//       title: const Text(
-//         "STUDYBUDDY",
-//         style: TextStyle(
-//           color: Colors.white,
-//           fontSize: 15.0,
-//           letterSpacing: 1.1,
-//         ),
-//       ),
-//       backgroundColor: const Color(0xFF696d97),
-//       actions: [
-//         IconButton(
-//           onPressed: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                 builder: (context) => Login(),
-//               ),
-//             );
-//           },
-//           icon: const Icon(
-//             Icons.logout,
-//             color: Colors.white,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

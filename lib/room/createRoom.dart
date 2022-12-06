@@ -1,3 +1,4 @@
+import 'package:VEmbrace/room/rooms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:VEmbrace/main.dart';
@@ -186,8 +187,7 @@ class CreateRoom extends StatelessWidget {
                               ]);
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MyHomePage()));
+                                      builder: (context) => const RoomsList()));
                             },
                             child: const Text(
                               "Create Room",

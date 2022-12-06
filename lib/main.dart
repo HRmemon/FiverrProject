@@ -1,118 +1,68 @@
+import 'dart:math';
+
+import 'package:VEmbrace/room/rooms.dart';
+import 'package:VEmbrace/simplelogin/components/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:VEmbrace/user/login.dart';
 import 'package:VEmbrace/user/reg.dart';
 import 'package:VEmbrace/room/createRoom.dart';
-import 'package:video_player/video_player.dart';
+
+import 'package:google_fonts/google_fonts.dart';
+
+import 'landing.dart';
 import 'room/createRoom.dart';
 import 'package:VEmbrace/widgets/homeBar.dart';
 
+import 'package:flutter/material.dart';
+import 'package:VEmbrace/animatedlogin/Screens/login/login.dart';
+import 'package:VEmbrace/animatedlogin/constants.dart';
+
 void main() {
-  runApp(MyApp());
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    // return const MaterialApp(
+    //   title: 'Flutter Demo',
+    //   home: RoomsList(),
+
+    // return const MaterialApp(
+    //   title: 'Flutter Demo',
+    //   home: LandingPage(),
+
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'NewsApp',
-      theme: ThemeData(
-          appBarTheme:
-              const AppBarTheme(iconTheme: IconThemeData(color: Colors.black))
-          //  primaryColor: Colors.black,
-          ),
-      home: SplashScreen(),
+      home: LoginPage(),
     );
+
+    // return MaterialApp(
+    //   title: 'vembrace',
+    //   debugShowCheckedModeBanner: false,
+    //   theme: ThemeData(
+    //       primaryColor: kPrimaryColor,
+    //       textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme)),
+    //   home: LoginScreen(),
+    // );
   }
 }
 
+// class RoomsList extends StatefulWidget {
+//   const RoomsList({super.key});
 
-
-// void main() {
-//   // WidgetsFlutterBinding.ensureInitialized();
-//   // await Firebase.initializeApp();
-
-//   runApp(const SplashScreen());
+//   @override
+//   State<RoomsList> createState() => _RoomsListState();
 // }
 
-// class SplashScreen extends StatefulWidget {
-//   const SplashScreen({Key? key}) : super(key: key);
-
-//   @override
-//   _SplashScreenState createState() => _SplashScreenState();
-// }
-
-// class _SplashScreenState extends State<SplashScreen> {
-//   late VideoPlayerController _controller;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _controller = VideoPlayerController.asset(
-//       'assets/splashscreen.mp4',
-//     )
-//       ..initialize().then((_) {
-//         setState(() {});
-//       })
-//       ..setVolume(0.0);
-
-//     _playVideo();
-//   }
-
-//   void _playVideo() async {
-//     _controller.play();
-
-//     await Future.delayed(const Duration(seconds: 4));
-
-//     // Navigator.pushNamed(context, '/');
-//   }
-
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.black,
-//       body: Center(
-//           child: _controller.value.isInitialized
-//               ? AspectRatio(
-//                   aspectRatio: _controller.value.aspectRatio,
-//                   child: VideoPlayer(
-//                     _controller,
-//                   ),
-//                 )
-//               : Container()),
-//     );
-//   }
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       title: 'Flutter Demo',
-//       home: MyHomePage(),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
+// class _RoomsListState extends State<RoomsList> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
