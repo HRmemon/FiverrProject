@@ -28,7 +28,7 @@ class MentalHealth extends StatelessWidget {
               height: 15,
             ),
             DoctorCard(
-              name: "Dr. John Cena",
+              name: "Tony Stark",
               stars: 5,
             ),
           ],
@@ -73,7 +73,7 @@ class DoctorCard extends StatelessWidget {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage: AssetImage("assets/DocButton.png"),
+                      backgroundImage: AssetImage("assets/default.png"),
                       radius: 28,
                     ),
                     const SizedBox(

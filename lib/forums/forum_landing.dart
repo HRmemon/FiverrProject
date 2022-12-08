@@ -6,12 +6,12 @@ List items = [
       dateTime: "05/12/2022 15:00",
       body: "This is a test post!"),
   const ForumPost(
-      name: "Mustafa Madras Wala",
+      name: "Mustafa Madraswala",
       dateTime: "05/09/2022 18:00",
       body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
   const ForumPost(
-      name: "Mehdi IDK",
+      name: "Mehdi Raza",
       dateTime: "01/03/1975 13:00",
       body: "I also have a post :)"),
 ];
@@ -24,8 +24,6 @@ class ForumLanding extends StatefulWidget {
 }
 
 class _ForumLandingState extends State<ForumLanding> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +48,7 @@ class _ForumLandingState extends State<ForumLanding> {
                   const Padding(
                     padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage("assets/DocButton.png"),
+                      backgroundImage: AssetImage("assets/default.png"),
                       radius: 22.5,
                     ),
                   ),
@@ -147,8 +145,7 @@ class _ForumPostState extends State<ForumPost> {
                         Row(
                           children: [
                             const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/DocButton.png"),
+                              backgroundImage: AssetImage("assets/default.png"),
                               radius: 22.5,
                             ),
                             const SizedBox(
@@ -306,7 +303,6 @@ class NewPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     TextEditingController _controller = TextEditingController();
 
     return Scaffold(
@@ -345,14 +341,14 @@ class NewPost extends StatelessWidget {
                             height: 5.0,
                           ),
                           CircleAvatar(
-                            backgroundImage: AssetImage("assets/DocButton.png"),
+                            backgroundImage: AssetImage("assets/default.png"),
                             radius: 25.0,
                           ),
                           SizedBox(
                             width: 10,
                           ),
                           Text(
-                            "Mustafa Madras Wala",
+                            "Kiran Nayab",
                             style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
@@ -369,13 +365,12 @@ class NewPost extends StatelessWidget {
                         maxLines: null,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFFC8D8D), width: 2.0)
-                            ),
+                                borderSide: BorderSide(
+                                    color: Color(0xFFFC8D8D), width: 2.0)),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFFC8D8D))
-                            ),
-                            hintText: "What's on your mind?"
-                        ),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFFC8D8D))),
+                            hintText: "What's on your mind?"),
                       ),
                       const SizedBox(
                         height: 10,
@@ -384,15 +379,17 @@ class NewPost extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                              onPressed: () {
-                                  items.add(
-                                    ForumPost(name: "Mustafa Madras Wala", dateTime: "06/12/2022 11:30", body: _controller.text)
-                                  );
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForumLanding()));
-                              },
-                              child: Text("POST"),
+                            onPressed: () {
+                              items.add(ForumPost(
+                                  name: "Kiran Nayab",
+                                  dateTime: "06/12/2022 11:30",
+                                  body: _controller.text));
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ForumLanding()));
+                            },
+                            child: Text("POST"),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFC8D8D),
                             ),

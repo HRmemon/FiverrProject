@@ -106,7 +106,7 @@ class DoctorCard extends StatelessWidget {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage: AssetImage("assets/DocButton.png"),
+                      backgroundImage: AssetImage("assets/default.png"),
                       radius: 28,
                     ),
                     const SizedBox(

@@ -86,7 +86,7 @@ class LandingPage extends StatelessWidget {
                               ),
                               padding: EdgeInsets.zero),
                           child: Image.asset(
-                            "assets/ForumButtom.png",
+                            "assets/ForumButton.png",
                             fit: BoxFit.cover,
                           ),
                         ),

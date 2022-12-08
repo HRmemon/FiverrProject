@@ -107,6 +107,7 @@ flutter:
     - assets/mental.png
     - assets/mustafa.jpg
 
+    - assets/default.png
 
   fonts:
     - family: NotoSerif

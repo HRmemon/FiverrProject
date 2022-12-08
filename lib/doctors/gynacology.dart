@@ -29,11 +29,11 @@ class Gynacology extends StatelessWidget {
                 height: 15,
               ),
               DoctorCard(
-                name: "Dr. Waqar",
+                name: "Dr. Hira Zuberi",
                 stars: 5,
               ),
               DoctorCard(
-                name: "Dr. Mobeen",
+                name: "Dr. Isma Hasan",
                 stars: 2,
               ),
               DoctorCard(
@@ -41,11 +41,11 @@ class Gynacology extends StatelessWidget {
                 stars: 1,
               ),
               DoctorCard(
-                name: "Mustafa Madras Wala",
+                name: "Kiran Nayab",
                 stars: 8,
               ),
               DoctorCard(
-                name: "Kiran Nayab",
+                name: "Mustafa Madraswala",
                 stars: 5,
               ),
               DoctorCard(
@@ -111,7 +111,7 @@ class DoctorCard extends StatelessWidget {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage: AssetImage("assets/DocButton.png"),
+                      backgroundImage: AssetImage("assets/default.png"),
                       radius: 28,
                     ),
                     const SizedBox(
