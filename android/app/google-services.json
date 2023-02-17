@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "815309245281",
-    "project_id": "vembrace-f0afb",
-    "storage_bucket": "VEmbrace-f0afb.appspot.com"
+    "project_number": "96876033625",
+    "project_id": "vembrace-5302a",
+    "storage_bucket": "vembrace-5302a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:815309245281:android:26c8c3b6d4cd6bf00e1320",
+        "mobilesdk_app_id": "1:96876033625:android:556f1706d339b22c636348",
         "android_client_info": {
           "package_name": "com.mustafa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "815309245281-9hbavouj2lnau6nh848haglnq16lbu9d.apps.googleusercontent.com",
+          "client_id": "96876033625-8phg597sj2n3cktrgmnvchp0mdo2pk1b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDUI0mkNmfdr7aFPraV5D3Ixf83D7C_6YA"
+          "current_key": "AIzaSyCbW-h0Gs08uAC7wXtDGi3bpLoBR4yQ_Jo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "815309245281-9hbavouj2lnau6nh848haglnq16lbu9d.apps.googleusercontent.com",
+              "client_id": "96876033625-8phg597sj2n3cktrgmnvchp0mdo2pk1b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "96876033625-3bmq90e9pdkivs3tcn04it8ktdmj5u2k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mustafa.VEmbrace"
+              }
             }
           ]
         }
