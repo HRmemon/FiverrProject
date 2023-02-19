@@ -11,6 +11,8 @@ import 'package:VEmbrace/simplelogin/components/login_page.dart';
 import 'package:VEmbrace/simplelogin/components/common/custom_form_button.dart';
 import 'package:VEmbrace/simplelogin/components/common/custom_input_field.dart';
 
+import '../../services/authentication_servies.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -22,6 +24,14 @@ class _SignupPageState extends State<SignupPage> {
   File? _profileImage;
 
   final _signupFormKey = GlobalKey<FormState>();
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _contactNoController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _imagePicker = ImagePicker();
+
+  AuthenticationService _authenticationService =AuthenticationService();
 
   Future _pickProfileImage() async {
     try {
@@ -98,7 +108,9 @@ class _SignupPageState extends State<SignupPage> {
                         height: 16,
                       ),
                       CustomInputField(
+
                           labelText: 'Name',
+                          textEditingController: _nameController,
                           hintText: 'Your name',
                           isDense: true,
                           validator: (textValue) {
@@ -112,6 +124,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       CustomInputField(
                           labelText: 'Email',
+                          textEditingController: _emailController,
                           hintText: 'Your email id',
                           isDense: true,
                           validator: (textValue) {
@@ -127,6 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                         height: 16,
                       ),
                       CustomInputField(
+                        textEditingController: _contactNoController,
                           labelText: 'Contact no.',
                           hintText: 'Your contact number',
                           isDense: true,
@@ -140,6 +154,7 @@ class _SignupPageState extends State<SignupPage> {
                         height: 16,
                       ),
                       CustomInputField(
+                        textEditingController: _passwordController,
                         labelText: 'Password',
                         hintText: 'Your password',
                         isDense: true,
@@ -206,11 +221,26 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  void _handleSignupUser() {
+  Future<void> _handleSignupUser() async {
     // signup user
     if (_signupFormKey.currentState!.validate()) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LandingPage()));
+      String name = _nameController.text;
+      String email = _emailController.text;
+      String contactNo = _contactNoController.text;
+      String password = _passwordController.text;
+      print("hsould be ${email}, ${password}");
+
+      UserModel? user = await _authenticationService.createUserWithEmailAndPassword(name: name, email: email, password: password, contactNo: contactNo, image: _profileImage);
+      if (user == null) {
+        // Handle registration failure
+        print('asdffdasfdasdfa');
+        print(user.uid);
+      } else {
+        print('USERRRRRRRRRRRRRRRR SISI NULL');
+        // Navigate to home screen or do something else with the newly registered user
+      }
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => LandingPage()));
       // Navigator.of(context)
       //     .push(MaterialPageRoute(builder: (context) => LandingPage()));
     }

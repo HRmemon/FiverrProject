@@ -19,6 +19,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //
   final _loginFormKey = GlobalKey<FormState>();
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                         CustomInputField(
                             labelText: 'Email',
                             hintText: 'Your email id',
+                            textEditingController: _emailContoller,
                             validator: (textValue) {
                               if (textValue == null || textValue.isEmpty) {
                                 return 'Email is required!';
@@ -65,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'Your password',
                           obscureText: true,
                           suffixIcon: true,
+                          textEditingController: _passwordContoller,
                           validator: (textValue) {
                             if (textValue == null || textValue.isEmpty) {
                               return 'Password is required!';
@@ -156,12 +160,18 @@ class _LoginPageState extends State<LoginPage> {
   void _handleLoginUser() {
     // login user
     if (_loginFormKey.currentState!.validate()) {
+      print(_emailContoller.text);
+      print(_passwordContoller.text);
+      // print(_loginFormKey.currentState.);
+
       // Navigator..of(context)pushReplacement(
       //   context,
       //   MaterialPageRoute(builder: (context) => LandingPage()),
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LandingPage()));
+
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => const LandingPage()));
       // );
+
       // Navigator.push(const LandingPage());
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Submitting data..')),

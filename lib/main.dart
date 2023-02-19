@@ -10,6 +10,9 @@ import 'package:VEmbrace/room/createRoom.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'landing.dart';
 import 'room/createRoom.dart';
 import 'package:VEmbrace/widgets/homeBar.dart';
@@ -18,10 +21,15 @@ import 'package:flutter/material.dart';
 import 'package:VEmbrace/animatedlogin/Screens/login/login.dart';
 import 'package:VEmbrace/animatedlogin/constants.dart';
 
-void main() {
+void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    name: "VEmbrace",
+    options: DefaultFirebaseOptions.currentPlatform,
 
+  );
   runApp(const MyApp());
 }
 
