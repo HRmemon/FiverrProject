@@ -1,4 +1,6 @@
 import 'package:VEmbrace/landing.dart';
+import 'package:VEmbrace/services/authentication_servies.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:VEmbrace/simplelogin/components/common/custom_input_field.dart';
 import 'package:VEmbrace/simplelogin/components/common/page_header.dart';
@@ -19,8 +21,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //
   final _loginFormKey = GlobalKey<FormState>();
-  TextEditingController _emailContoller = TextEditingController();
-  TextEditingController _passwordContoller = TextEditingController();
+  final TextEditingController _emailContoller = TextEditingController();
+  final TextEditingController _passwordContoller = TextEditingController();
+
+  final AuthenticationService _authenticationService = AuthenticationService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +162,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _handleLoginUser() {
+  Future<void> _handleLoginUser() async {
     // login user
     if (_loginFormKey.currentState!.validate()) {
       print(_emailContoller.text);
       print(_passwordContoller.text);
+      UserCredential userCredential = await _authenticationService.signInWithEmailAndPassword(_emailContoller.text, _passwordContoller.text);
+      print("IN THE LOGIN PAGE");
+      print(userCredential.user?.uid);
+
+
       // print(_loginFormKey.currentState.);
 
       // Navigator..of(context)pushReplacement(
