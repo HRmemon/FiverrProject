@@ -10,7 +10,7 @@ class UserModel {
   final String name;
   final String email;
   final String contactNo;
-  late final String imageUrl;
+  String? imageUrl;
 
   UserModel({required this.uid, required this.name, required this.email, required this.contactNo, required this.imageUrl});
 

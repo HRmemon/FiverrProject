@@ -19,6 +19,8 @@ class DatabaseService {
         user.imageUrl = downloadUrl;
       });
     }
+    print(user.uid);
+    print(user.imageUrl);
     return await _db.collection('users').doc(user.uid).set(user.toMap());
   }
 
