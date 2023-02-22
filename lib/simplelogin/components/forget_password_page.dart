@@ -1,3 +1,4 @@
+import 'package:VEmbrace/services/authentication_servies.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:VEmbrace/simplelogin/components/common/custom_form_button.dart';
@@ -15,6 +16,8 @@ class ForgetPasswordPage extends StatefulWidget {
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   final _forgetPasswordFormKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final AuthenticationService _authenticationService = AuthenticationService();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                           title: 'Forgot password',
                         ),
                         CustomInputField(
+                            textEditingController: _emailController,
                             labelText: 'Email',
                             hintText: 'Your email id',
                             isDense: true,
@@ -93,12 +97,17 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     );
   }
 
-  void _handleForgetPassword() {
+  Future<void> _handleForgetPassword() async {
     // forget password
     if (_forgetPasswordFormKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submitting data..')),
-      );
+      String email = _emailController.text;
+      await _authenticationService.resetPassword(email: email);
+      // setState(() {
+      //   _successMessage = 'Password reset email sent to $email';
+      // });
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Submitting data..')),
+      // );
     }
   }
 }

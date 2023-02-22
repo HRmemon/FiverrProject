@@ -1,3 +1,4 @@
+import 'package:VEmbrace/services/authentication_servies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:VEmbrace/doctors/doctors.dart';
@@ -5,6 +6,8 @@ import 'package:VEmbrace/forums/forum_landing.dart';
 import 'package:VEmbrace/health_mart/health_mart.dart';
 import 'package:VEmbrace/my_calendar/my_calendar.dart';
 import 'package:VEmbrace/widgets/homeBar.dart';
+
+import 'simplelogin/components/login_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -19,7 +22,15 @@ class LandingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                //Logic to be changed
+                final AuthenticationService _authenticationService = AuthenticationService();
+                _authenticationService.signOut();
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const LoginPage()));
+              },
               icon: const Icon(
                 color: Color.fromARGB(255, 0, 0, 0),
                 Icons.menu,

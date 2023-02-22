@@ -31,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   final _imagePicker = ImagePicker();
 
-  AuthenticationService _authenticationService =AuthenticationService();
+  final AuthenticationService _authenticationService = AuthenticationService();
 
   Future _pickProfileImage() async {
     try {
@@ -108,7 +108,6 @@ class _SignupPageState extends State<SignupPage> {
                         height: 16,
                       ),
                       CustomInputField(
-
                           labelText: 'Name',
                           textEditingController: _nameController,
                           hintText: 'Your name',
@@ -140,7 +139,7 @@ class _SignupPageState extends State<SignupPage> {
                         height: 16,
                       ),
                       CustomInputField(
-                        textEditingController: _contactNoController,
+                          textEditingController: _contactNoController,
                           labelText: 'Contact no.',
                           hintText: 'Your contact number',
                           isDense: true,
@@ -228,15 +227,22 @@ class _SignupPageState extends State<SignupPage> {
       String email = _emailController.text;
       String contactNo = _contactNoController.text;
       String password = _passwordController.text;
-      print("hsould be ${email}, ${password}");
+      print("should be ${email}, ${password}");
 
-      UserModel? user = await _authenticationService.createUserWithEmailAndPassword(name: name, email: email, password: password, contactNo: contactNo, image: _profileImage);
+      UserModel? user =
+          await _authenticationService.createUserWithEmailAndPassword(
+              name: name,
+              email: email,
+              password: password,
+              contactNo: contactNo,
+              image: _profileImage);
       if (user == null) {
         // Handle registration failure
-        print('asdffdasfdasdfa');
-        print(user.uid);
-      } else {
         print('USERRRRRRRRRRRRRRRR SISI NULL');
+      } else {
+        print(user.uid);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => LandingPage()));
         // Navigate to home screen or do something else with the newly registered user
       }
       // Navigator.of(context).pushReplacement(

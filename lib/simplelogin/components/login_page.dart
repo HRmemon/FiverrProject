@@ -21,11 +21,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //
   final _loginFormKey = GlobalKey<FormState>();
-  final TextEditingController _emailContoller = TextEditingController();
-  final TextEditingController _passwordContoller = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final AuthenticationService _authenticationService = AuthenticationService();
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                         CustomInputField(
                             labelText: 'Email',
                             hintText: 'Your email id',
-                            textEditingController: _emailContoller,
+                            textEditingController: _emailController,
                             validator: (textValue) {
                               if (textValue == null || textValue.isEmpty) {
                                 return 'Email is required!';
@@ -73,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'Your password',
                           obscureText: true,
                           suffixIcon: true,
-                          textEditingController: _passwordContoller,
+                          textEditingController: _passwordController,
                           validator: (textValue) {
                             if (textValue == null || textValue.isEmpty) {
                               return 'Password is required!';
@@ -165,12 +164,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _handleLoginUser() async {
     // login user
     if (_loginFormKey.currentState!.validate()) {
-      print(_emailContoller.text);
-      print(_passwordContoller.text);
-      UserCredential userCredential = await _authenticationService.signInWithEmailAndPassword(_emailContoller.text, _passwordContoller.text);
-      print("IN THE LOGIN PAGE");
-      print(userCredential.user?.uid);
-
+      UserCredential userCredential =
+          await _authenticationService.signInWithEmailAndPassword(
+              _emailController.text, _passwordController.text);
 
       // print(_loginFormKey.currentState.);
 
@@ -178,9 +174,10 @@ class _LoginPageState extends State<LoginPage> {
       //   context,
       //   MaterialPageRoute(builder: (context) => LandingPage()),
 
-      // Navigator.of(context).pushReplacement(
-      //     MaterialPageRoute(builder: (context) => const LandingPage()));
-      // );
+      if (userCredential.user != null) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const LandingPage()));
+      }
 
       // Navigator.push(const LandingPage());
       // ScaffoldMessenger.of(context).showSnackBar(

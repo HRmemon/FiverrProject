@@ -12,7 +12,12 @@ class UserModel {
   final String contactNo;
   String? imageUrl;
 
-  UserModel({required this.uid, required this.name, required this.email, required this.contactNo, required this.imageUrl});
+  UserModel(
+      {required this.uid,
+      required this.name,
+      required this.email,
+      required this.contactNo,
+      required this.imageUrl});
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,17 +44,39 @@ class FirebaseAuthService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+  Future<UserCredential> signInWithEmailAndPassword(
+      String email, String password) async {
+    return await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
-  Future<UserCredential> createUserWithEmailAndPassword(String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<UserCredential> createUserWithEmailAndPassword(
+      String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
   }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      print("RESETING FOR EMAIL $email");
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      print('asdf');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+// Future<AuthStatus> resetPassword({required String email}) async {
+//   await _firebaseAuth
+//       .sendPasswordResetEmail(email: email)
+//       .then((value) => _status = AuthStatus.successful)
+//       .catchError((e) => _status = AuthExceptionHandler.handleAuthException(e));
+//   return _status;
+// }
 }
 
 class AuthenticationService {
@@ -60,12 +87,20 @@ class AuthenticationService {
   //   return _firebaseAuthService.authStateChanges.map((user) => user != null ? _databaseService.getUser(user.uid) : null);
   // }
 
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
-    return await _firebaseAuthService.signInWithEmailAndPassword(email, password);
+  Future<UserCredential> signInWithEmailAndPassword(
+      String email, String password) async {
+    return await _firebaseAuthService.signInWithEmailAndPassword(
+        email, password);
   }
 
-  Future<UserModel> createUserWithEmailAndPassword({required String email, required String password, required String name, required String contactNo, File? image}) async {
-    UserCredential authResult = await _firebaseAuthService.createUserWithEmailAndPassword(email, password);
+  Future<UserModel> createUserWithEmailAndPassword(
+      {required String email,
+      required String password,
+      required String name,
+      required String contactNo,
+      File? image}) async {
+    UserCredential authResult = await _firebaseAuthService
+        .createUserWithEmailAndPassword(email, password);
     UserModel user = UserModel(
       uid: authResult.user!.uid,
       name: name,
@@ -75,6 +110,14 @@ class AuthenticationService {
     );
     await _databaseService.createUser(user, image);
     return user;
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await _firebaseAuthService.resetPassword(email);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> signOut() async {
