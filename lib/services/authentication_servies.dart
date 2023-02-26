@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'database_services.dart';
 
@@ -46,14 +46,27 @@ class FirebaseAuthService {
 
   Future<UserCredential> signInWithEmailAndPassword(
       String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+    final DatabaseService databaseService = DatabaseService();
+    UserCredential userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+    if (userCredentials.user != null){
+      databaseService.saveUserToSharedPref(userCredentials.user!.uid);
+    }
+    return userCredentials;
+
+
   }
 
   Future<UserCredential> createUserWithEmailAndPassword(
       String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
+    UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    final DatabaseService _databaseService = DatabaseService();
+
+    if(userCredential.user != null) {
+      _databaseService.saveUserToSharedPref(userCredential.user!.uid);
+    }
+    return userCredential;
   }
 
   Future<void> signOut() async {
@@ -62,9 +75,7 @@ class FirebaseAuthService {
 
   Future<void> resetPassword(String email) async {
     try {
-      print("RESETING FOR EMAIL $email");
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-      print('asdf');
     } catch (e) {
       print(e);
     }

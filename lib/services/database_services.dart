@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authentication_servies.dart';
 
@@ -32,4 +33,18 @@ class DatabaseService {
       return null;
     }
   }
-}
+
+  saveUserToSharedPref(String uid) async {
+
+    UserModel? userModel = await getUser(uid);
+    if (userModel != null){
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('user_name', userModel.name);
+        await prefs.setString('user_image_url', userModel.imageUrl ?? "");
+      } catch (e) {
+        print('Error saving user data: $e');
+        rethrow;
+      }
+    }
+  }
