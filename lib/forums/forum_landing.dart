@@ -1,4 +1,5 @@
 import 'package:VEmbrace/services/models/post_model.dart';
+import 'package:VEmbrace/services/post_likes_services.dart';
 import 'package:VEmbrace/services/posts_db.dart';
 import 'package:flutter/material.dart';
 
@@ -139,10 +140,10 @@ class ForumPost extends StatefulWidget {
 }
 
 class _ForumPostState extends State<ForumPost> {
-  int likes = 0;
 
   @override
   Widget build(BuildContext context) {
+    int likes = widget.post.likesCount;
     return Row(
       children: [
         Expanded(
@@ -237,10 +238,13 @@ class _ForumPostState extends State<ForumPost> {
                           children: [
                             Expanded(
                               child: TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    likes += 1;
-                                  });
+                                onPressed: () async {
+                                  var liked = await LikeDatabase().likeOrDislike( widget.post.postId);
+                                  if (liked) {
+                                    setState(() {
+                                      likes += 1;
+                                    });
+                                  }
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -324,7 +328,9 @@ class NewPost extends StatelessWidget {
 
     void savePost() {
       String input = _controller.text;
-      if (input.trim().isNotEmpty) {
+      if (input
+          .trim()
+          .isNotEmpty) {
         PostDatabase().createPost(input.trim());
       } else {
         print('Invalid post input');
@@ -350,7 +356,7 @@ class NewPost extends StatelessWidget {
             Expanded(
               child: Container(
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -395,7 +401,7 @@ class NewPost extends StatelessWidget {
                                     color: Color(0xFFFC8D8D), width: 2.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Color(0xFFFC8D8D))),
+                                BorderSide(color: Color(0xFFFC8D8D))),
                             hintText: "What's on your mind?"),
                       ),
                       const SizedBox(
