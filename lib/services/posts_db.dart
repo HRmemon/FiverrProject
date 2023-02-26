@@ -44,6 +44,36 @@ class PostDatabase {
       rethrow;
     }
   }
+
+
+
+  Future<List<Post>> getPosts() async {
+    final posts = await FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('createdAt', descending: true)
+        .get();
+
+    final List<Post> postList = [];
+
+    for (final post in posts.docs) {
+      final likes =
+      await post.reference.collection('likes').get();
+
+      postList.add(Post(
+        postId: post.id,
+        content: post.data()['content'],
+        userId: post.data()['userId'],
+        name: post.data()['name'],
+        imageUrl: post.data()['imageUrl'],
+        createdAt: post.data()['createdAt'],
+        likesCount: likes.docs.length,
+      ));
+    }
+
+    print("RETURNING ${posts.size} posts");
+    return postList;
+  }
+
 }
 
 // Future<void> createPost(Post post) async {

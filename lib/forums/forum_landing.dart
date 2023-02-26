@@ -1,20 +1,21 @@
+import 'package:VEmbrace/services/models/post_model.dart';
 import 'package:VEmbrace/services/posts_db.dart';
 import 'package:flutter/material.dart';
 
 List items = [
-  const ForumPost(
-      name: "Kiran Nayab",
-      dateTime: "05/12/2022 15:00",
-      body: "This is a test post!"),
-  const ForumPost(
-      name: "Mustafa Madraswala",
-      dateTime: "05/09/2022 18:00",
-      body:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
-  const ForumPost(
-      name: "Mehdi Raza",
-      dateTime: "01/03/1975 13:00",
-      body: "I also have a post :)"),
+  // const ForumPost(
+  //     name: "Kiran Nayab",
+  //     dateTime: "05/12/2022 15:00",
+  //     body: "This is a test post!"),
+  // const ForumPost(
+  //     name: "Mustafa Madraswala",
+  //     dateTime: "05/09/2022 18:00",
+  //     body:
+  //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+  // const ForumPost(
+  //     name: "Mehdi Raza",
+  //     dateTime: "01/03/1975 13:00",
+  //     body: "I also have a post :)"),
 ];
 
 class ForumLanding extends StatefulWidget {
@@ -59,6 +60,12 @@ class _ForumLandingState extends State<ForumLanding> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const NewPost()));
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[50],
+                          elevation: 0.5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          )),
                       child: Row(
                         children: const [
                           SizedBox(
@@ -78,12 +85,6 @@ class _ForumLandingState extends State<ForumLanding> {
                           ),
                         ],
                       ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[50],
-                          elevation: 0.5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          )),
                     ),
                   ),
                 ],
@@ -94,10 +95,26 @@ class _ForumLandingState extends State<ForumLanding> {
               color: Colors.grey[400],
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return items[index];
+              child: FutureBuilder<List<Post>>(
+                future: PostDatabase().getPosts(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      List<Post>? posts = snapshot.data;
+                      return ListView.builder(
+                        itemCount: posts!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          print('SHOULD BE HERE ${posts[index].toMap()}');
+                          return ForumPost(post: posts[index]);
+                        },
+                      );
+                    }
+                  }
                 },
               ),
             ),
@@ -107,16 +124,15 @@ class _ForumLandingState extends State<ForumLanding> {
 }
 
 class ForumPost extends StatefulWidget {
-  final String name;
-  final String dateTime;
-  final String body;
+  // final String name;
+  // final String dateTime;
+  // final String body;
+  final Post post;
 
-  const ForumPost(
-      {Key? key,
-      required this.name,
-      required this.dateTime,
-      required this.body})
-      : super(key: key);
+  const ForumPost({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
 
   @override
   State<ForumPost> createState() => _ForumPostState();
@@ -156,7 +172,7 @@ class _ForumPostState extends State<ForumPost> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.name,
+                                  widget.post.name,
                                   style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w400,
@@ -166,7 +182,7 @@ class _ForumPostState extends State<ForumPost> {
                                   height: 3.0,
                                 ),
                                 Text(
-                                  widget.dateTime,
+                                  widget.post.createdAt.toDate().toString(),
                                   style: const TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w400,
@@ -180,7 +196,7 @@ class _ForumPostState extends State<ForumPost> {
                           height: 25,
                         ),
                         Text(
-                          widget.body,
+                          widget.post.content,
                           textAlign: TextAlign.justify,
                           style: const TextStyle(
                               height: 1.4,
