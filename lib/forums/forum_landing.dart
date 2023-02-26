@@ -1,3 +1,4 @@
+import 'package:VEmbrace/services/posts_db.dart';
 import 'package:flutter/material.dart';
 
 List items = [
@@ -305,6 +306,15 @@ class NewPost extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
 
+    void savePost() {
+      String input = _controller.text;
+      if (input.trim().isNotEmpty) {
+        PostDatabase().createPost(input.trim());
+      } else {
+        print('Invalid post input');
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.pink[50],
       appBar: AppBar(
@@ -379,16 +389,17 @@ class NewPost extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              items.add(ForumPost(
-                                  name: "Kiran Nayab",
-                                  dateTime: "06/12/2022 11:30",
-                                  body: _controller.text));
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ForumLanding()));
-                            },
+                            // onPressed: () {
+                            //   items.add(ForumPost(
+                            //       name: "Kiran Nayab",
+                            //       dateTime: "06/12/2022 11:30",
+                            //       body: _controller.text));
+                            //   Navigator.of(context).pop();
+                            //   Navigator.of(context).pop();
+                            //   Navigator.of(context).push(MaterialPageRoute(
+                            //       builder: (context) => ForumLanding()));
+                            // },
+                            onPressed: savePost,
                             child: Text("POST"),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFC8D8D),

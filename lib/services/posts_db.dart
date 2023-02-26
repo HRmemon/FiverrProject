@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/post_model.dart';
-
 
 class PostDatabase {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
 
   Future<void> createPost(String post) async {
     try {
@@ -21,38 +20,47 @@ class PostDatabase {
 
       // Create the post document with the provided string and current timestamp
       final postDocument = FirebaseFirestore.instance.collection('posts').doc();
-      final createdAt = DateTime.now();
-      final Post _post = Post.fromMap();
-      await postDocument.set({
-        'userId': userId,
+
+      final prefs = await SharedPreferences.getInstance();
+      final name = prefs.getString('user_name');
+      final imageUrl = prefs.getString('user_image_url');
+      final createdAt = DateTime.now().toUtc().toString(); // UTC timestamp
+
+      final postData = {
         'post': post,
+        'name': name ?? '',
+        'imageUrl': imageUrl ?? '',
         'createdAt': createdAt,
-      });
+        "userId": userId,
+      };
+      final Post _post = Post.fromMap(postData);
+      await postDocument.set(_post.toMap());
 
       // Create the likes collection for the post document
-      await postDocument.collection('likes').doc('count').set({'count': 0});
-
+      // await postDocument.collection('likes');
+      // await postDocument.collection('comments');
     } catch (e) {
       print('Error creating post: $e');
       rethrow;
     }
   }
+}
 
-  // Future<void> createPost(Post post) async {
-  //   final docRef = _db.collection('posts').doc();
-  //   final postId = docRef.id;
-  //   // post.id = postId;
-  //   // post.userId = userId;
-  //   await docRef.set(post.toMap());
-  //
-  //   // Update user's posts count
-  //   final userDocRef = _db.collection('users').doc(userId);
-  //   final userDoc = await userDocRef.get();
-  //   final int postsCount = userDoc['postsCount'] ?? 0;
-  //   await userDocRef.update({
-  //     'postsCount': postsCount + 1,
-  //   });
-  // }
+// Future<void> createPost(Post post) async {
+//   final docRef = _db.collection('posts').doc();
+//   final postId = docRef.id;
+//   // post.id = postId;
+//   // post.userId = userId;
+//   await docRef.set(post.toMap());
+//
+//   // Update user's posts count
+//   final userDocRef = _db.collection('users').doc(userId);
+//   final userDoc = await userDocRef.get();
+//   final int postsCount = userDoc['postsCount'] ?? 0;
+//   await userDocRef.update({
+//     'postsCount': postsCount + 1,
+//   });
+// }
 
 //   Future<List<Post>> getPosts() async {
 //     final querySnapshot = await _db.collection('posts').get();

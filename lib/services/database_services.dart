@@ -13,7 +13,8 @@ class DatabaseService {
   Future<void> createUser(UserModel user, File? image) async {
     if (image != null) {
       String fileName = basename(image.path);
-      Reference storageRef = FirebaseStorage.instance.ref().child('user_images/$fileName');
+      Reference storageRef = FirebaseStorage.instance.ref().child(
+          'user_images/$fileName');
       UploadTask uploadTask = storageRef.putFile(image);
       await uploadTask.whenComplete(() async {
         String downloadUrl = await storageRef.getDownloadURL();
@@ -35,9 +36,8 @@ class DatabaseService {
   }
 
   saveUserToSharedPref(String uid) async {
-
     UserModel? userModel = await getUser(uid);
-    if (userModel != null){
+    if (userModel != null) {
       try {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_name', userModel.name);
@@ -48,3 +48,4 @@ class DatabaseService {
       }
     }
   }
+}
