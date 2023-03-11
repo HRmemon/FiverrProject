@@ -23,6 +23,7 @@ class CommentDatabase {
     };
 
     final Comment _comment = Comment.fromMap(commentData);
+    print("Adding comment to $postId : $commentData");
     await postRef.collection('comments').add(_comment.toMap());
   }
 

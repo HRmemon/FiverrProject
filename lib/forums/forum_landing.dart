@@ -142,7 +142,6 @@ class ForumPost extends StatefulWidget {
 }
 
 class _ForumPostState extends State<ForumPost> {
-
   @override
   Widget build(BuildContext context) {
     int likes = widget.post.likesCount;
@@ -241,7 +240,8 @@ class _ForumPostState extends State<ForumPost> {
                             Expanded(
                               child: TextButton(
                                 onPressed: () async {
-                                  var liked = await LikeDatabase().likeOrDislike( widget.post.postId);
+                                  var liked = await LikeDatabase()
+                                      .likeOrDislike(widget.post.postId);
                                   if (liked) {
                                     setState(() {
                                       likes += 1;
@@ -290,11 +290,16 @@ class _ForumPostState extends State<ForumPost> {
                                     Expanded(
                                       child: TextButton(
                                         onPressed: () {
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) => CommentPage(postId: widget.post.postId)));
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommentPage(
+                                                          postId: widget
+                                                              .post.postId)));
                                         },
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.forum,
@@ -350,9 +355,7 @@ class NewPost extends StatelessWidget {
 
     void savePost() {
       String input = _controller.text;
-      if (input
-          .trim()
-          .isNotEmpty) {
+      if (input.trim().isNotEmpty) {
         PostDatabase().createPost(input.trim());
       } else {
         print('Invalid post input');
@@ -378,7 +381,7 @@ class NewPost extends StatelessWidget {
             Expanded(
               child: Container(
                 margin:
-                const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -423,7 +426,7 @@ class NewPost extends StatelessWidget {
                                     color: Color(0xFFFC8D8D), width: 2.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFFFC8D8D))),
+                                    BorderSide(color: Color(0xFFFC8D8D))),
                             hintText: "What's on your mind?"),
                       ),
                       const SizedBox(

@@ -54,7 +54,8 @@ class _CommentPageState extends State<CommentPage> {
                     return ListView.builder(
                       itemCount: comments!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return PostReply(comment: comments[index],
+                        return PostReply(
+                          comment: comments[index],
                         );
                       },
                     );
@@ -85,7 +86,8 @@ class _CommentPageState extends State<CommentPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const NewComment()));
+                            builder: (context) =>
+                                NewComment(postId: widget.postId)));
                       },
                       child: Row(
                         children: const [
@@ -129,7 +131,8 @@ class PostReply extends StatefulWidget {
   final Comment comment;
 
   const PostReply({
-    Key? key, required this.comment,
+    Key? key,
+    required this.comment,
   }) : super(key: key);
 
   @override
@@ -169,7 +172,7 @@ class _PostReplyState extends State<PostReply> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${widget.comment.name} adf",
+                                "${widget.comment.name}",
                                 style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w400,
@@ -179,7 +182,9 @@ class _PostReplyState extends State<PostReply> {
                                 height: 3.0,
                               ),
                               Text(
-                                widget.comment.createdAt.toDate().toIso8601String(),
+                                widget.comment.createdAt
+                                    .toDate()
+                                    .toIso8601String(),
                                 style: const TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w400,
@@ -225,7 +230,9 @@ class _PostReplyState extends State<PostReply> {
 }
 
 class NewComment extends StatefulWidget {
-  const NewComment({Key? key}) : super(key: key);
+  final String postId;
+
+  const NewComment({Key? key, required this.postId}) : super(key: key);
 
   @override
   State<NewComment> createState() => _NewCommentState();
@@ -245,7 +252,6 @@ class _NewCommentState extends State<NewComment> {
 
   @override
   void initState() {
-    print('asdf123');
     loadUserData();
     super.initState();
   }
@@ -330,7 +336,7 @@ class _NewCommentState extends State<NewComment> {
                           ElevatedButton(
                             onPressed: () {
 //TODO:
-//                             CommentDatabase().addCommentToPost()
+                              CommentDatabase().addCommentToPost(widget.postId, _controller.text);
                             },
                             child: Text("Comment"),
                             style: ElevatedButton.styleFrom(
