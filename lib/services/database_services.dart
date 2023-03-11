@@ -40,6 +40,7 @@ class DatabaseService {
     if (userModel != null) {
       try {
         final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userId', uid);
         await prefs.setString('user_name', userModel.name);
         await prefs.setString('user_image_url', userModel.imageUrl ?? "");
       } catch (e) {

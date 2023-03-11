@@ -67,7 +67,7 @@ class Comment {
     required this.createdAt,
   });
 
-  factory Comment.fromMap(Map<String, dynamic> data, String id) {
+  factory Comment.fromMap(Map<String, dynamic> data) {
     final Timestamp createdAt = data['timestamp'] ?? Timestamp.now();
     return Comment(
       userId: data['userId'] ?? '',

@@ -3,6 +3,8 @@ import 'package:VEmbrace/services/post_likes_services.dart';
 import 'package:VEmbrace/services/posts_db.dart';
 import 'package:flutter/material.dart';
 
+import 'commentPage.dart';
+
 List items = [
   // const ForumPost(
   //     name: "Kiran Nayab",
@@ -277,7 +279,7 @@ class _ForumPostState extends State<ForumPost> {
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.forum,
                                       color: Color(0xFFFC8D8D),
@@ -285,13 +287,33 @@ class _ForumPostState extends State<ForumPost> {
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(
-                                      "Comment",
-                                      style: TextStyle(
-                                          color: Color(0xFFFC8D8D),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.0),
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => CommentPage(postId: widget.post.postId)));
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.forum,
+                                              color: Color(0xFFFC8D8D),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Comment",
+                                              style: TextStyle(
+                                                  color: Color(0xFFFC8D8D),
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 1.0),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
