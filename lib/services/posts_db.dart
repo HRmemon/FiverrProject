@@ -48,6 +48,8 @@ class PostDatabase {
 
 
   Future<List<Post>> getPosts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId');
     final posts = await FirebaseFirestore.instance
         .collection('posts')
         .orderBy('createdAt', descending: true)
@@ -58,6 +60,7 @@ class PostDatabase {
     for (final post in posts.docs) {
       final likes =
       await post.reference.collection('likes').get();
+      final liked = await post.reference.collection('likes').doc(userId).get();
 
       postList.add(Post(
         postId: post.id,
@@ -67,6 +70,7 @@ class PostDatabase {
         imageUrl: post.data()['imageUrl'],
         createdAt: post.data()['createdAt'],
         likesCount: likes.docs.length,
+        liked: liked.exists,
       ));
     }
 

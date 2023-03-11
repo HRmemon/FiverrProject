@@ -54,7 +54,8 @@ class LikeDatabase {
     final userId = currentUser?.uid;
     bool isLiked = await isPostLikedByUser(postId, userId!);
     if (isLiked) {
-      return await unlikePost(postId, userId);
+      await unlikePost(postId, userId);
+      return false;
     } else{
       return await likePost(postId, userId!);
     }

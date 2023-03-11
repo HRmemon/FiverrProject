@@ -334,9 +334,19 @@ class _NewCommentState extends State<NewComment> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-//TODO:
-                              CommentDatabase().addCommentToPost(widget.postId, _controller.text);
+                            onPressed: () async {
+                              bool isSuccess = await CommentDatabase().addCommentToPost(widget.postId, _controller.text);
+                              if (isSuccess) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CommentPage(
+                                                postId: widget
+                                                    .postId)));
+                              } else{
+
+//TODO: Show the ERRoR
+                              }
                             },
                             child: Text("Comment"),
                             style: ElevatedButton.styleFrom(

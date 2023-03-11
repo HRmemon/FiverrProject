@@ -112,7 +112,6 @@ class _ForumLandingState extends State<ForumLanding> {
                       return ListView.builder(
                         itemCount: posts!.length,
                         itemBuilder: (BuildContext context, int index) {
-                          print('SHOULD BE HERE ${posts[index].toMap()}');
                           return ForumPost(post: posts[index]);
                         },
                       );
@@ -142,9 +141,15 @@ class ForumPost extends StatefulWidget {
 }
 
 class _ForumPostState extends State<ForumPost> {
+  int likes = 0;
+  bool liked = false;
+
+  final Key iconKey = UniqueKey();
   @override
   Widget build(BuildContext context) {
-    int likes = widget.post.likesCount;
+    likes = widget.post.likesCount;
+    liked = widget.post.liked;
+
     return Row(
       children: [
         Expanded(
@@ -240,20 +245,32 @@ class _ForumPostState extends State<ForumPost> {
                             Expanded(
                               child: TextButton(
                                 onPressed: () async {
-                                  var liked = await LikeDatabase()
+                                  bool temp = await LikeDatabase()
                                       .likeOrDislike(widget.post.postId);
-                                  if (liked) {
-                                    setState(() {
+                                  setState(() {
+                                    //TODO: if liked
+                                  if (temp) {
+                                      print('liked ADSF');
+
+                                      liked = true;
                                       likes += 1;
-                                    });
-                                  }
+                                    //TODO: if disliked
+                                    }else{
+                                        likes -= 0;
+                                        liked = false;
+                                      print('disliked ADSF');
+                                    }
+                                  });
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
-                                      Icons.thumb_up_outlined,
+                                      liked
+                                          ? Icons.thumbs_up_down_sharp
+                                          : Icons.thumb_up_outlined,
                                       color: Color(0xFFFC8D8D),
+                                      key: iconKey,
                                     ),
                                     SizedBox(
                                       width: 5,
@@ -280,13 +297,6 @@ class _ForumPostState extends State<ForumPost> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.forum,
-                                      color: Color(0xFFFC8D8D),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
                                     Expanded(
                                       child: TextButton(
                                         onPressed: () {

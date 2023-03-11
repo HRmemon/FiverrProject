@@ -5,28 +5,35 @@ import 'models/post_model.dart';
 
 class CommentDatabase {
 
-  Future<void> addCommentToPost(String postId, String content) async {
-    final prefs = await SharedPreferences.getInstance();
-    String name = prefs.getString('user_name')!;
-    String userId = prefs.getString('userId')!;
-    String imageUrl = prefs.getString('user_image_url')!;
-    if (userId ==null) return;
 
-    final postRef = FirebaseFirestore.instance.collection('posts').doc(postId);
+  Future<bool> addCommentToPost(String postId, String content) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String name = prefs.getString('user_name')!;
+      String userId = prefs.getString('userId')!;
+      String imageUrl = prefs.getString('user_image_url')!;
+      if (userId ==null) return false;
 
-    final commentData = {
-      'content': content,
-      'userId': userId,
-      'name': name,
-      'imageUrl': imageUrl,
-      'createdAt': FieldValue.serverTimestamp(),
-    };
+      final postRef = FirebaseFirestore.instance.collection('posts').doc(postId);
 
-    final Comment _comment = Comment.fromMap(commentData);
-    print("Adding comment to $postId : $commentData");
-    await postRef.collection('comments').add(_comment.toMap());
+      final commentData = {
+        'content': content,
+        'userId': userId,
+        'name': name,
+        'imageUrl': imageUrl,
+        'createdAt': FieldValue.serverTimestamp(),
+      };
+
+      final Comment _comment = Comment.fromMap(commentData);
+      print("Adding comment to $postId : $commentData");
+      await postRef.collection('comments').add(_comment.toMap());
+
+      return true; // operation successful, return true
+    } catch (e) {
+      print('Failed to add comment: $e');
+      return false; // operation failed, return false
+    }
   }
-
 
   Future<List<Comment>> getCommentsForPost(String postId) async {
 

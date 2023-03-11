@@ -8,6 +8,7 @@ class Post {
   final String content;
   final Timestamp createdAt;
   final int likesCount;
+  final bool liked;
 
   Post(
       {required this.userId,
@@ -16,6 +17,7 @@ class Post {
       required this.content,
       required this.createdAt,
         this.postId = "",
+        this.liked = false,
       this.likesCount = 0});
 
   factory Post.fromMap(Map<String, dynamic> data) {
