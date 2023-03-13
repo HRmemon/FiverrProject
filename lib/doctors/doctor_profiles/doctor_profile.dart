@@ -1,18 +1,17 @@
+import 'package:VEmbrace/services/authentication_servies.dart';
 import 'package:flutter/material.dart';
 import 'package:VEmbrace/doctors/appointment/book_appointment.dart';
 
 class DoctorProfile extends StatelessWidget {
-  final String name;
-  final String joined;
-  final int stars;
-  final String bio;
+  // final String name;
+  // final String joined;
+  // final int stars;
+  // final String bio;
+  final UserModel user;
 
   const DoctorProfile(
-      {Key? key,
-      required this.name,
-      required this.joined,
-      required this.stars,
-      required this.bio})
+      {Key? key, required this.user,
+      })
       : super(key: key);
 
   @override
@@ -62,7 +61,7 @@ class DoctorProfile extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "$name",
+                                      "${user.name}",
                                       style: const TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w400,
@@ -89,7 +88,7 @@ class DoctorProfile extends StatelessWidget {
                             height: 40,
                           ),
                           Text(
-                            bio,
+                            "DOCTOR'S BIO...",
                             textAlign: TextAlign.justify,
                             style: const TextStyle(
                               fontSize: 14.0,
@@ -222,7 +221,7 @@ class DoctorProfile extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
-                                          const BookAppointment()));
+                                          BookAppointment(doctor: user,)));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFFFC8D8D),

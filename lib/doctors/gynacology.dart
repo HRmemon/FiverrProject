@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:VEmbrace/doctors/doctor_profiles/doctor_profile.dart';
+
+import '../services/authentication_servies.dart';
 
 class Gynacology extends StatelessWidget {
   const Gynacology({Key? key}) : super(key: key);
@@ -20,56 +23,46 @@ class Gynacology extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 7.5),
-          child: Column(
-            children: const [
-              SizedBox(
-                height: 15,
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 7.5),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 15,
+            ),
+            //TODO: Add users
+            // DoctorCard(
+            //   name: "Dr. Hira Zuberi",
+            //   stars: 5,
+            // ),
+
+            Expanded(
+              child: FutureBuilder<QuerySnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    // .where('role', isEqualTo: 'doctor')
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final doctors = snapshot.data!.docs.map((doc) {
+                    final user = UserModel.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id);
+                    return DoctorCard(user: user,);
+                  }).toList();
+
+                  return ListView(children: doctors, shrinkWrap: true,);
+                },
               ),
-              DoctorCard(
-                name: "Dr. Hira Zuberi",
-                stars: 5,
-              ),
-              DoctorCard(
-                name: "Dr. Isma Hasan",
-                stars: 2,
-              ),
-              DoctorCard(
-                name: "Dr. Abdul Samad",
-                stars: 1,
-              ),
-              DoctorCard(
-                name: "Kiran Nayab",
-                stars: 8,
-              ),
-              DoctorCard(
-                name: "Mustafa Madraswala",
-                stars: 5,
-              ),
-              DoctorCard(
-                name: "Mehdi IDK",
-                stars: 0,
-              ),
-              DoctorCard(
-                name: "Abdullah Fareed",
-                stars: 3,
-              ),
-              DoctorCard(
-                name: "Bilal Fayaz 1",
-                stars: 1,
-              ),
-              DoctorCard(
-                name: "Bilal Fayaz 2",
-                stars: 4,
-              ),
-              DoctorCard(
-                name: "Bilal Fayaz 3",
-                stars: 5,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -77,10 +70,9 @@ class Gynacology extends StatelessWidget {
 }
 
 class DoctorCard extends StatelessWidget {
-  final String name;
-  final int stars;
 
-  const DoctorCard({Key? key, required this.name, required this.stars})
+  final UserModel user;
+  const DoctorCard({Key? key, required this.user })
       : super(key: key);
 
   @override
@@ -94,11 +86,7 @@ class DoctorCard extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => DoctorProfile(
-                        name: name,
-                        joined: "12 April 2022",
-                        stars: stars,
-                        bio:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")));
+user: user,)));
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
@@ -121,7 +109,7 @@ class DoctorCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          user.name,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16.5,

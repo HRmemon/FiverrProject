@@ -1,8 +1,12 @@
+import 'package:VEmbrace/services/appointment_services.dart';
+import 'package:VEmbrace/services/authentication_servies.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookAppointment extends StatefulWidget {
-  const BookAppointment({Key? key}) : super(key: key);
+  final UserModel doctor;
+  const BookAppointment({Key? key, required this.doctor}) : super(key: key);
 
   @override
   State<BookAppointment> createState() => _BookAppointmentState();
@@ -103,7 +107,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                     height: 25,
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Navigator.of(context).pop();
                       // Navigator.of(context).pop();
                       // Navigator.of(context).pop();
@@ -111,7 +115,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                       if (_selectedDay == null) {
                         //TODO : TOAST
                       } else {
-                        print("$_selectedDay ${_nameController.text} ${_purposeController.text}");
+                        print("$_selectedDay ${_nameController.text} ${_purposeController.text} ${widget.doctor.toMap()}");
+                        final prefs = await SharedPreferences.getInstance();
+                        final userId = prefs.getString('userId');
+                        AppointmentService().setAppointment(userId!, widget.doctor.uid, _selectedDay!, _nameController.text, _purposeController.text);
 
                       }
                     },
