@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../services/authentication_servies.dart';
 import 'doctor_profiles/doctor_profile.dart';
+import 'gynacology.dart';
 
 class MentalHealth extends StatelessWidget {
   const MentalHealth({Key? key}) : super(key: key);
@@ -23,13 +26,39 @@ class MentalHealth extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 7.5),
         child: Column(
-          children: const [
+          children: [
             SizedBox(
               height: 15,
             ),
-            DoctorCard(
-              name: "Tony Stark",
-              stars: 5,
+            // DoctorCard(
+            //   name: "Tony Stark",
+            //   stars: 5,
+            // ),
+            Expanded(
+              child: FutureBuilder<QuerySnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                // .where('role', isEqualTo: 'mental_health')
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final doctors = snapshot.data!.docs.map((doc) {
+                    final user = UserModel.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id);
+                    return DoctorCard(user: user,);
+                  }).toList();
+
+                  return ListView(children: doctors, shrinkWrap: true,);
+                },
+              ),
             ),
           ],
         ),
@@ -38,113 +67,113 @@ class MentalHealth extends StatelessWidget {
   }
 }
 
-class DoctorCard extends StatelessWidget {
-  final String name;
-  final int stars;
-
-  const DoctorCard({Key? key, required this.name, required this.stars})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => DoctorProfile(
-                //         name: name,
-                //         joined: "12 April 2022",
-                //         stars: stars,
-                //         bio:
-                //             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")));
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  )),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage("assets/default.png"),
-                      radius: 28,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.5,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                            Icon(
-                              Icons.star_border_outlined,
-                              color: Color(0xFFFC8D8D),
-                              size: 21,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
+// class DoctorCard extends StatelessWidget {
+//   final String name;
+//   final int stars;
+//
+//   const DoctorCard({Key? key, required this.name, required this.stars})
+//       : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Expanded(
+//           child: Container(
+//             margin: const EdgeInsets.symmetric(vertical: 5.0),
+//             child: ElevatedButton(
+//               onPressed: () {
+//                 // Navigator.of(context).push(MaterialPageRoute(
+//                 //     builder: (context) => DoctorProfile(
+//                 //         name: name,
+//                 //         joined: "12 April 2022",
+//                 //         stars: stars,
+//                 //         bio:
+//                 //             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")));
+//               },
+//               style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.white,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(25),
+//                   )),
+//               child: Padding(
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+//                 child: Row(
+//                   children: [
+//                     const CircleAvatar(
+//                       backgroundImage: AssetImage("assets/default.png"),
+//                       radius: 28,
+//                     ),
+//                     const SizedBox(
+//                       width: 15,
+//                     ),
+//                     Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Text(
+//                           name,
+//                           style: const TextStyle(
+//                             color: Colors.black,
+//                             fontSize: 16.5,
+//                             fontWeight: FontWeight.w400,
+//                             letterSpacing: 1.0,
+//                           ),
+//                         ),
+//                         Row(
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           children: const [
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                             Icon(
+//                               Icons.star_border_outlined,
+//                               color: Color(0xFFFC8D8D),
+//                               size: 21,
+//                             ),
+//                           ],
+//                         )
+//                       ],
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         )
+//       ],
+//     );
+//   }
+// }
