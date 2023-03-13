@@ -5,6 +5,7 @@ class Appointment {
   final DateTime date;
   final String name;
   final String purpose;
+  final String doctor_name;
 
   Appointment(
       {required this.name,
@@ -12,7 +13,8 @@ class Appointment {
       required this.id,
       required this.userId,
       required this.doctorId,
-      required this.date});
+      required this.date,
+      required this.doctor_name});
 
   Map<String, dynamic> toMap() {
     return {
@@ -22,6 +24,7 @@ class Appointment {
       'date': date,
       'name': name,
       'purpose': purpose,
+      'doctor_name': doctor_name,
     };
   }
 
@@ -31,8 +34,9 @@ class Appointment {
       userId: map['userId'],
       doctorId: map['doctorId'],
       date: map['date'].toDate(),
-      name: map['name'].toDate(),
-      purpose: map['purpose'].toDate(),
+      name: map['name'],
+      purpose: map['purpose'],
+      doctor_name: map['doctor_name'],
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class BookAppointment extends StatefulWidget {
   final UserModel doctor;
+
   const BookAppointment({Key? key, required this.doctor}) : super(key: key);
 
   @override
@@ -115,11 +116,17 @@ class _BookAppointmentState extends State<BookAppointment> {
                       if (_selectedDay == null) {
                         //TODO : TOAST
                       } else {
-                        print("$_selectedDay ${_nameController.text} ${_purposeController.text} ${widget.doctor.toMap()}");
+                        print(
+                            "$_selectedDay ${_nameController.text} ${_purposeController.text} ${widget.doctor.toMap()}");
                         final prefs = await SharedPreferences.getInstance();
                         final userId = prefs.getString('userId');
-                        AppointmentService().setAppointment(userId!, widget.doctor.uid, _selectedDay!, _nameController.text, _purposeController.text);
-
+                        AppointmentService().setAppointment(
+                            userId!,
+                            widget.doctor.uid,
+                            _selectedDay!,
+                            _nameController.text,
+                            _purposeController.text,
+                            widget.doctor.name);
                       }
                     },
                     style: ElevatedButton.styleFrom(
